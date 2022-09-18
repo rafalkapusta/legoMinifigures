@@ -7,17 +7,18 @@ import * as Yup from "yup";
 import { SubmitForm } from "./SubmitForm";
 import { useOrderFigureMutation } from "../../api/figures";
 import { useAppSelector } from "../../hooks/hooks";
+import { phoneRegExp, zipCodeRegExp } from "../../constants/constants";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
     surname: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    phoneNumber: Yup.string().min(9).max(9).required("Required"),
+    phoneNumber: Yup.string().matches(phoneRegExp, "Phone number is not valid").required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     dateOfBirth: Yup.string().required("Required"),
     adress: Yup.string().required("Required"),
     city: Yup.string().required("Required"),
     state: Yup.string().required("Required"),
-    zipCode: Yup.string().required("Required")
+    zipCode: Yup.string().matches(zipCodeRegExp, "Zip code is not valid").required("Required")
 });
 
 const initialValues = {

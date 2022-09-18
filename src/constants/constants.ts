@@ -6,3 +6,7 @@ export const legoApiTags = {
 };
 
 export const FIG_NUMBER = 3;
+
+export const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+
+export const zipCodeRegExp = /^(\d{2})-(\d{3})$/;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useAppSelector } from "../../hooks/hooks";
 import { useGetFigurePartsQuery, useGetFigureQuery } from "../../api/figures";
 import { FigureParts } from "../../types";
+import { Loader } from "../common/Loader/Loader";
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,11 +28,12 @@ const Specifics: FC = () => {
     const id = chosenFigure!.match(/\d+/g)![0];
     if (!id) return null;
 
-    const { data: figure } = useGetFigureQuery(id);
-    const { data: figureParts } = useGetFigurePartsQuery(id);
+    const { data: figure, isLoading: loadingFig } = useGetFigureQuery(id);
+    const { data: figureParts, isLoading: loadingParts } = useGetFigurePartsQuery(id);
+
+    if (loadingFig || loadingParts) return <Loader />;
 
     if (!figure || !figureParts) return null;
-
     return (
         <SpecificsWrapper>
             <img height="250" src={figure.set_img_url} alt={figure.name} />

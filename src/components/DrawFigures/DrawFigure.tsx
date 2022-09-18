@@ -4,10 +4,14 @@ import { Button } from "../common/Button/Button";
 
 type Props = {
     setSkip: Dispatch<boolean>;
+    setIsLoading: Dispatch<boolean>;
 };
 
-const DrawFigure: FC<Props> = ({ setSkip }) => {
-    const drawFigure = () => setSkip(false);
+const DrawFigure: FC<Props> = ({ setSkip, setIsLoading }) => {
+    const drawFigure = () => {
+        setSkip(false);
+        setIsLoading(true);
+    };
     return (
         <>
             <H1>lego minifigs mystery box</H1>

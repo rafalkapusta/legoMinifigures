@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { Input } from "./Input";
 import * as Yup from "yup";
 import { SubmitForm } from "./SubmitForm";
+import { useOrderFigureMutation } from "../../api/figures";
+import { useAppSelector } from "../../hooks/hooks";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -41,17 +43,26 @@ const FormWrapper = styled.div`
 `;
 
 const FormComponent: FC = () => {
+    const [orderFigure] = useOrderFigureMutation();
+    const chosenFigure = useAppSelector((state) => state.figuresData.chosenFigure);
+
     return (
         <FormWrapper>
             <Formik
                 initialValues={initialValues}
-                onSubmit={() => console.log("submit")}
+                onSubmit={(values) => {
+                    orderFigure({ ...values, figId: chosenFigure });
+                    window.location.reload();
+                }}
                 validationSchema={validationSchema}
             >
                 <Form>
                     <InputWrapper>
                         <Input label="Name" type="text" name="name" isSmall />
                         <Input label="Surname" type="text" name="surname" isSmall />
+                    </InputWrapper>
+                    <InputWrapper>
+                        <Input label="Email" type="email" name="email" />
                     </InputWrapper>
                     <InputWrapper>
                         <Input label="Phone number" type="tel" name="phoneNumber" />

@@ -1,6 +1,6 @@
 import legoApi from "./legoApi";
 import { legoApiTags } from "../constants/constants";
-import { FigureParts, MiniFigure } from "../types";
+import { FigureParts, MiniFigure, Order } from "../types";
 
 const { GET_FIGURE, GET_FIGURE_PARTS } = legoApiTags;
 
@@ -23,8 +23,16 @@ const figures = legoApi.injectEndpoints({
                 headers
             }),
             providesTags: GET_FIGURE_PARTS
+        }),
+        orderFigure: builder.mutation<Record<string, never>, Order>({
+            query: (body) => ({
+                url: "ship/minifig",
+                method: "POST",
+                body
+            })
+            // invalidatesTags
         })
     })
 });
 
-export const { useGetFigureQuery, useGetFigurePartsQuery } = figures;
+export const { useGetFigureQuery, useGetFigurePartsQuery, useOrderFigureMutation } = figures;

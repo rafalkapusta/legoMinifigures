@@ -8,6 +8,9 @@ import { App } from "./components/App";
 import { ThemeProvider } from "styled-components";
 import { appTheme, GlobalStyle } from "./globalStyle/globalStyle";
 
+const { worker } = require("./mocks/browser");
+worker.start();
+
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 

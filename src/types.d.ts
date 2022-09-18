@@ -89,3 +89,16 @@ export interface FigureParts {
     previous?: any;
     results: Result[];
 }
+
+export type Order = {
+    name: string;
+    surname: string;
+    phoneNumber: string;
+    email: string;
+    dateOfBirth: string;
+    adress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    figId: string;
+};

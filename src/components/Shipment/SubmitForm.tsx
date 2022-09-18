@@ -5,7 +5,6 @@ import { useFormikContext } from "formik";
 
 const SubmitForm: FC = () => {
     const { isValid, dirty } = useFormikContext();
-    console.log(isValid, dirty);
 
     return (
         <Button

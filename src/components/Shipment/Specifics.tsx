@@ -2,7 +2,7 @@ import { FC } from "react";
 import styled from "styled-components";
 
 import { useAppSelector } from "../../hooks/hooks";
-import { useGetFigurePartsQuery, useGetFigureQuery } from "../../api/getFigures";
+import { useGetFigurePartsQuery, useGetFigureQuery } from "../../api/figures";
 import { FigureParts } from "../../types";
 
 const Wrapper = styled.div`

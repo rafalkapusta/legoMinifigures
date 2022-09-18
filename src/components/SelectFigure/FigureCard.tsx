@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Dispatch, FC } from "react";
 import styled, { css } from "styled-components";
 import { Field } from "formik";
 
@@ -7,6 +7,8 @@ import { Button } from "../common/Button/Button";
 
 type Props = {
     figure: MiniFigure;
+    openModal: Dispatch<boolean>;
+    setDetails: Dispatch<MiniFigure>;
 };
 
 const Wrapper = styled.div`
@@ -43,7 +45,7 @@ const P = styled.p`
     text-align: center;
 `;
 
-const FigureCard: FC<Props> = ({ figure }) => {
+const FigureCard: FC<Props> = ({ figure, openModal, setDetails }) => {
     return (
         <Label>
             <Field type="radio" id={figure.set_num} name="picked" value={figure.set_num} />
@@ -56,6 +58,10 @@ const FigureCard: FC<Props> = ({ figure }) => {
                         margin-bottom: 8px;
                         background: ${({ theme: { color } }) => color.showDetail};
                     `}
+                    onClick={() => {
+                        openModal(true);
+                        setDetails(figure);
+                    }}
                 >
                     show detail
                 </Button>

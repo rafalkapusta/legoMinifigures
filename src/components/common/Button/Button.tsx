@@ -12,6 +12,9 @@ const Button = styled.button<{ cssMixin?: CSS<unknown> }>`
     &:hover {
         background: ${({ theme: { color } }) => color.hoverBlue};
     }
+    &:disabled {
+        cursor: not-allowed;
+    }
     ${({ cssMixin }) => cssMixin};
 `;
 

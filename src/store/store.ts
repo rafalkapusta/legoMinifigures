@@ -2,11 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 import legoApi from "../api/legoApi";
-import chosenFigure from "../store/slices/appSlice";
+import figuresData from "../store/slices/appSlice";
 
 const reducer = {
     [legoApi.reducerPath]: legoApi.reducer,
-    chosenFigure
+    figuresData
 };
 
 export const store = configureStore({

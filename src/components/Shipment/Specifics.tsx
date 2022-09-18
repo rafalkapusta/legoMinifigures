@@ -5,15 +5,24 @@ import { useAppSelector } from "../../hooks/hooks";
 import { useGetFigurePartsQuery, useGetFigureQuery } from "../../api/getFigures";
 import { FigureParts } from "../../types";
 
-// type Props = {};
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: 50%;
+`;
+
+const SpecificsWrapper = styled.div`
+    text-align: center;
+    border-radius: 8px;
+    grid-column: 3/4;
+    grid-row: 2/6;
+    background: white;
+    margin: 0 16px;
 `;
 
 const Specifics: FC = () => {
-    const chosenFigure = useAppSelector(({ chosenFigure }) => chosenFigure.chosenFigure);
+    const chosenFigure = useAppSelector(({ figuresData }) => figuresData.chosenFigure);
 
     const id = chosenFigure!.match(/\d+/g)![0];
     if (!id) return null;
@@ -23,9 +32,8 @@ const Specifics: FC = () => {
 
     if (!figure || !figureParts) return null;
 
-    console.log(figureParts);
     return (
-        <>
+        <SpecificsWrapper>
             <img height="250" src={figure.set_img_url} alt={figure.name} />
             <Wrapper>
                 {(figureParts as FigureParts).results.map((part) => (
@@ -38,7 +46,7 @@ const Specifics: FC = () => {
                     />
                 ))}
             </Wrapper>
-        </>
+        </SpecificsWrapper>
     );
 };
 

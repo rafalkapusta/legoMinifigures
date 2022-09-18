@@ -1,23 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { MiniFigure } from "../../types";
 
 interface InitialState {
-    chosenFigure: null | string;
+    chosenFigure: string;
+    minifigures: MiniFigure[];
 }
 
 const initialState: InitialState = {
-    chosenFigure: null
+    chosenFigure: "",
+    minifigures: []
 };
 
-const chosenFigureDate = createSlice({
-    name: "applicationData",
+const figuresData = createSlice({
+    name: "figuresData",
     initialState,
     reducers: {
         setChosenFigure(state, { payload }: PayloadAction<string>) {
             state.chosenFigure = payload;
+        },
+        addMinifigure(state, { payload }: PayloadAction<MiniFigure>) {
+            state.minifigures.push(payload);
         }
     }
 });
 
-export const { setChosenFigure } = chosenFigureDate.actions;
+export const { setChosenFigure, addMinifigure } = figuresData.actions;
 
-export default chosenFigureDate.reducer;
+export default figuresData.reducer;

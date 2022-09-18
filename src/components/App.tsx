@@ -1,43 +1,49 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useGetFigureQuery } from "../api/getFigures";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { Loader } from "./common/Loader/Loader";
 
 import { drawFigures } from "../helpers/drawFigures";
 import { DrawFigure } from "./DrawFigures/DrawFigure";
 import { SelectFigure } from "./SelectFigure/SelectFigure";
 import { Shipment } from "./Shipment/Shipment";
+import { addMinifigure } from "../store/slices/appSlice";
+import { FIG_NUMBER } from "../constants/constants";
+import { BackendError } from "./common/BackendError/BackendError";
 
 const App = () => {
+    const dispatch = useAppDispatch();
     const [skip, setSkip] = useState(true);
-    const [redraw, setRedraw] = useState(false);
+    const [redrawCount, setRedrawCount] = useState(0);
 
-    const chosenFigure = useAppSelector(({ chosenFigure }) => chosenFigure.chosenFigure);
+    const state = useAppSelector((state) => state);
 
-    const [fig1, fig2, fig3] = useMemo(() => drawFigures(), [redraw]);
+    const { chosenFigure, minifigures } = state.figuresData;
 
-    const [
-        { data: figure1, error: figure1_err },
-        { data: figure2, error: figure2_err },
-        { data: figure3, error: figure3_err }
-    ] = [useGetFigureQuery(fig1, { skip }), useGetFigureQuery(fig2, { skip }), useGetFigureQuery(fig3, { skip })];
+    const id = useMemo(() => drawFigures(), [minifigures.length, redrawCount]);
+
+    const { data: figure, error } = useGetFigureQuery(id, { skip });
 
     const isLoading = useAppSelector(({ legoApi: { queries, mutations } }) =>
         [...Object.values(queries), ...Object.values(mutations)].some((query) => query?.status === "pending")
     );
 
-    const haveAllFiguresImg = () => {
-        if ([figure1, figure2, figure3].every((fig) => fig?.set_img_url !== null)) return;
-        setRedraw(!redraw);
+    const hasFigureImg = () => {
+        if (!figure) return;
+        figure.set_img_url ? dispatch(addMinifigure(figure)) : setRedrawCount((prevState) => ++prevState);
     };
-    if (!chosenFigure) {
-        haveAllFiguresImg();
-    }
 
+    useEffect(() => {
+        if (minifigures.length < FIG_NUMBER) {
+            hasFigureImg();
+        }
+    }, [figure]);
+
+    if (error) return <BackendError />;
     if (isLoading) return <Loader />;
     if (chosenFigure) return <Shipment />;
-    if (!skip) return <SelectFigure figures={[figure1, figure2, figure3]} />;
+    if (!skip) return <SelectFigure figures={minifigures} />;
     return <DrawFigure setSkip={setSkip} />;
 };
 

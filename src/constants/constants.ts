@@ -4,3 +4,5 @@ export const legoApiTags = {
     GET_FIGURE: ["GET_FIGURE"],
     GET_FIGURE_PARTS: ["GET_FIGURE_PARTS"]
 };
+
+export const FIG_NUMBER = 3;

@@ -7,7 +7,7 @@ import { FormComponent } from "./Form";
 
 const PageWrapper = styled.div`
     display: grid;
-    grid-template-columns: 0.5fr 5fr 2fr;
+    grid-template-columns: 0.5fr 5fr 350px;
     grid-template-rows: 0.5fr 2fr 1fr auto 2fr 0.5fr;
     width: 100%;
     height: 100%;

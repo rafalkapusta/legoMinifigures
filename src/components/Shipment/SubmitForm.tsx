@@ -12,7 +12,7 @@ const SubmitForm: FC = () => {
             cssMixin={css`
                 position: absolute;
                 bottom: 40px;
-                right: 110px;
+                right: 133px;
             `}
         >
             submit

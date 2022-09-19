@@ -1,16 +1,18 @@
 import { FC } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { useAppSelector } from "../../hooks/hooks";
 import { useGetFigurePartsQuery, useGetFigureQuery } from "../../api/figures";
 import { FigureParts } from "../../types";
 import { Loader } from "../common/Loader/Loader";
+import { H2 } from "../common/Header/Header";
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    max-height: 50%;
+    max-height: 40%;
+    margin-top: 24px;
 `;
 
 const SpecificsWrapper = styled.div`
@@ -20,6 +22,16 @@ const SpecificsWrapper = styled.div`
     grid-row: 2/6;
     background: white;
     margin: 0 16px;
+    padding: 8px;
+    p {
+        margin: 0 8px;
+        color: ${({ theme: { color } }) => color.showDetail};
+    }
+`;
+
+const PartWrapper = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const Specifics: FC = () => {
@@ -36,16 +48,26 @@ const Specifics: FC = () => {
     if (!figure || !figureParts) return null;
     return (
         <SpecificsWrapper>
-            <img height="250" src={figure.set_img_url} alt={figure.name} />
+            <H2
+                cssMixin={css`
+                    text-align: left;
+                    margin: 8px 0;
+                `}
+            >
+                summary
+            </H2>
+            <img height="200" src={figure.set_img_url} alt={figure.name} />
+            <p>{figure.name}</p>
             <Wrapper>
                 {(figureParts as FigureParts).results.map((part) => (
-                    <img
-                        height="80"
-                        width="80"
-                        key={part.part.part_cat_id}
-                        src={part.part.part_img_url}
-                        alt={part.part.name}
-                    />
+                    <PartWrapper key={part.part.part_cat_id}>
+                        {part.part.part_img_url && (
+                            <>
+                                <img height="70" width="80" src={part.part.part_img_url} alt={part.part.name} />
+                                <p>id: {part.id}</p>
+                            </>
+                        )}
+                    </PartWrapper>
                 ))}
             </Wrapper>
         </SpecificsWrapper>

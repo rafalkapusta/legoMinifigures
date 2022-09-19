@@ -38,9 +38,8 @@ const ModalComponent: FC<Props> = ({ isOpen, setIsOpen, details }) => {
             contentLabel="Example Modal"
         >
             <h2>{details.name}</h2>
-            <p>
-                Number of parts: {details.num_parts}, set number: {details.set_num}
-            </p>
+            <p>Number of parts: {details.num_parts}</p>
+            <p>set number: {details.set_num}</p>
             <Wrapper>
                 <Button
                     as="a"
